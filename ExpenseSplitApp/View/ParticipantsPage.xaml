@@ -18,5 +18,23 @@
 
         <Button Text="Dodaj Uczestnika" 
                 Clicked="OnAddParticipantClicked" />
+
+        <Label Text="Wydatki" 
+               FontSize="Large" 
+               HorizontalOptions="Center" 
+               Margin="20,10,20,0" />
+
+        <ListView x:Name="expensesListView">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextCell Text="{Binding Description}" 
+                              Detail="{Binding Amount}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <Button Text="Dodaj Wydatek" 
+                Clicked="OnAddExpenseClicked" />
+
     </StackLayout>
 </ContentPage>
