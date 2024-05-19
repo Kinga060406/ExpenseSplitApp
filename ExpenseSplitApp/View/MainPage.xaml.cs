@@ -1,8 +1,8 @@
 ﻿using ExpenseSplitApp.Models;
 using System;
 using System.Collections.ObjectModel;
-using ExpenseSplitApp.View;
 using ExpenseSplitApp.ViewModels;
+using ExpenseSplitApp.Views;
 
 namespace ExpenseSplitApp
 {

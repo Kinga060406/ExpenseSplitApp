@@ -1,14 +1,14 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:ExpenseSplitApp"
-             x:Class="ExpenseSplitApp.View.ParticipantsPage">
+             xmlns:local="clr-namespace:ExpenseSplitApp.Views"
+             x:Class="ExpenseSplitApp.Views.ParticipantsPage">
 
     <StackLayout>
         <Label Text="Uczestnicy" 
                FontSize="Large" 
                HorizontalOptions="Center" />
 
-        <ListView x:Name="participantsListView">
+        <ListView ItemsSource="{Binding Participants}" x:Name="participantsListView">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextCell Text="{Binding Name}" />
@@ -24,7 +24,7 @@
                HorizontalOptions="Center" 
                Margin="20,10,20,0" />
 
-        <ListView x:Name="expensesListView">
+        <ListView ItemsSource="{Binding Expenses}" x:Name="expensesListView">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextCell Text="{Binding Description}" 
