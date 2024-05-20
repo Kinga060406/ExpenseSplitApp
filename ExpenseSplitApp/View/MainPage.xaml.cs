@@ -1,36 +1,28 @@
-﻿// MainPage.xaml.cs
-using ExpenseSplitApp.Models;
+﻿using ExpenseSplitApp.Models;
+using System;
 using System.Collections.ObjectModel;
-using ExpenseSplitApp.View;
+using ExpenseSplitApp.ViewModels;
+using ExpenseSplitApp.Views;
+using Microsoft.Maui.Controls;
 
 namespace ExpenseSplitApp
 {
     public partial class MainPage : ContentPage
     {
-        private ObservableCollection<Group> _groups;
+        private MainPageViewModel viewModel;
 
         public MainPage()
         {
             InitializeComponent();
-            LoadGroups();
-        }
-
-        private async void LoadGroups()
-        {
-            var groups = await App.Database.GetGroupsAsync();
-            _groups = new ObservableCollection<Group>(groups);
-            groupsListView.ItemsSource = _groups;
+            viewModel = new MainPageViewModel();
+            BindingContext = viewModel;
+            viewModel.LoadGroups();
         }
 
         private async void OnAddGroupClicked(object sender, EventArgs e)
         {
-            var groupName = await DisplayPromptAsync("Nowa Grupa", "Podaj nazwę grupy:");
-            if (!string.IsNullOrWhiteSpace(groupName))
-            {
-                var newGroup = new Group { Name = groupName };
-                await App.Database.SaveGroupAsync(newGroup);
-                _groups.Add(newGroup);
-            }
+            string groupName = await DisplayPromptAsync("Nowa Grupa", "Podaj nazwę grupy:");
+            viewModel.AddGroup(groupName);
         }
 
         private async void OnGroupTapped(object sender, ItemTappedEventArgs e)
@@ -41,5 +33,16 @@ namespace ExpenseSplitApp
                 await Navigation.PushAsync(new ParticipantsPage(group.Id));
             }
         }
+
+        private void OnDeleteGroupClicked(object sender, EventArgs e)
+        {
+            var button = sender as Button;
+            var group = button?.BindingContext as Group;
+            if (group != null)
+            {
+                viewModel.DeleteGroup(group);
+            }
+        }
     }
 }
+
