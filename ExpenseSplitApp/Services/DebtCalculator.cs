@@ -29,7 +29,7 @@ namespace ExpenseSplitApp.Models
 
                     foreach (var participant in participantsInGroup)
                     {
-                        participant.Debt = sharePerParticipant;
+                        participant.Debt += sharePerParticipant;
                         await database.UpdateParticipantAsync(participant);
                     }
                 }

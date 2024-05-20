@@ -59,17 +59,9 @@ namespace ExpenseSplitApp.ViewModels
             {
                 await DebtCalculator.CalculateDebtsAsync(Participants.ToList(), Expenses.ToList(), App.Database);
 
-                // Odśwież listę uczestników, aby uwzględnić zaktualizowane zadłużenia
+                // Refresh the participants list to include updated debts
                 var updatedParticipants = await App.Database.GetParticipantsAsync();
-                foreach (var participant in updatedParticipants.Where(p => p.GroupId == _groupId))
-                {
-                    var existingParticipant = Participants.FirstOrDefault(p => p.Id == participant.Id);
-                    if (existingParticipant != null)
-                    {
-                        existingParticipant.Debt = participant.Debt;
-                    }
-                }
-
+                Participants = new ObservableCollection<Participant>(updatedParticipants.Where(p => p.GroupId == _groupId));
                 OnPropertyChanged(nameof(Participants));
             }
         }
