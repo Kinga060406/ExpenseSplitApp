@@ -1,34 +1,36 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using ExpenseSplitApp.Models;
+using System.Threading.Tasks;
 
-namespace ExpenseSplitApp.Services
+namespace ExpenseSplitApp.Models
 {
-    public class DebtCalculator
+    public static class DebtCalculator
     {
-        public static void CalculateDebts(List<Participant> participants, List<Expense> expenses)
+        public static async Task CalculateDebtsAsync(List<Participant> participants, List<Expense> expenses, Database database)
         {
+            // Reset debts for all participants
             foreach (var participant in participants)
             {
-                // Wyzeruj zadłużenie dla każdego uczestnika
                 participant.Debt = 0m;
             }
 
-            // Obliczanie sumy wszystkich wydatków w grupie
-            decimal totalExpenseAmount = expenses.Sum(expense => expense.Amount);
+            // Group expenses by GroupId
+            var expensesByGroup = expenses.GroupBy(e => e.GroupId);
 
-            // Obliczanie zadłużenia dla każdego uczestnika
-            foreach (var expense in expenses)
+            foreach (var groupExpenses in expensesByGroup)
             {
-                // Obliczanie równego podziału wydatku pomiędzy wszystkich uczestników
-                decimal sharePerParticipant = expense.Amount / participants.Count;
+                int groupId = groupExpenses.Key;
+                var participantsInGroup = participants.Where(p => p.GroupId == groupId).ToList();
 
-                // Dodawanie udziału wydatku do zadłużenia każdego uczestnika
-                foreach (var participant in participants)
+                if (participantsInGroup.Count > 0)
                 {
-                    if (participant.GroupId == expense.GroupId)
+                    decimal totalGroupExpense = groupExpenses.Sum(e => e.Amount);
+                    decimal sharePerParticipant = totalGroupExpense / participantsInGroup.Count;
+
+                    foreach (var participant in participantsInGroup)
                     {
-                        participant.Debt += sharePerParticipant;
+                        participant.Debt = sharePerParticipant;
+                        await database.UpdateParticipantAsync(participant);
                     }
                 }
             }

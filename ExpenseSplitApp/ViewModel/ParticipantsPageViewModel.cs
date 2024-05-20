@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -44,12 +43,35 @@ namespace ExpenseSplitApp.ViewModels
         {
             var participants = await App.Database.GetParticipantsAsync();
             Participants = new ObservableCollection<Participant>(participants.Where(p => p.GroupId == _groupId));
+            await CalculateDebtsAsync();
         }
 
         private async void LoadExpenses()
         {
             var expenses = await App.Database.GetExpensesAsync();
             Expenses = new ObservableCollection<Expense>(expenses.Where(e => e.GroupId == _groupId));
+            await CalculateDebtsAsync();
+        }
+
+        private async Task CalculateDebtsAsync()
+        {
+            if (Participants != null && Expenses != null)
+            {
+                await DebtCalculator.CalculateDebtsAsync(Participants.ToList(), Expenses.ToList(), App.Database);
+
+                // Odśwież listę uczestników, aby uwzględnić zaktualizowane zadłużenia
+                var updatedParticipants = await App.Database.GetParticipantsAsync();
+                foreach (var participant in updatedParticipants.Where(p => p.GroupId == _groupId))
+                {
+                    var existingParticipant = Participants.FirstOrDefault(p => p.Id == participant.Id);
+                    if (existingParticipant != null)
+                    {
+                        existingParticipant.Debt = participant.Debt;
+                    }
+                }
+
+                OnPropertyChanged(nameof(Participants));
+            }
         }
 
         public async Task AddParticipantAsync(string participantName)
@@ -59,6 +81,7 @@ namespace ExpenseSplitApp.ViewModels
                 var newParticipant = new Participant { Name = participantName, GroupId = _groupId };
                 await App.Database.SaveParticipantAsync(newParticipant);
                 Participants.Add(newParticipant);
+                await CalculateDebtsAsync();
             }
         }
 
@@ -69,6 +92,7 @@ namespace ExpenseSplitApp.ViewModels
                 var newExpense = new Expense { Description = description, Amount = amount, GroupId = _groupId };
                 await App.Database.SaveExpenseAsync(newExpense);
                 Expenses.Add(newExpense);
+                await CalculateDebtsAsync();
             }
         }
 

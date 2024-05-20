@@ -13,11 +13,8 @@
                 <DataTemplate>
                     <ViewCell>
                         <StackLayout Orientation="Horizontal">
-                            <Label Text="{Binding Name}" 
-                                   VerticalOptions="Center" />
-                            <Label Text="{Binding Debt}" 
-                                   VerticalOptions="Center" 
-                                   HorizontalOptions="EndAndExpand" />
+                            <Label Text="{Binding Name}" />
+                            <Label Text="{Binding Debt, StringFormat=' (Debt: {0:C})'}" />
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>
@@ -36,13 +33,12 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextCell Text="{Binding Description}" 
-                              Detail="{Binding Amount}" />
+                              Detail="{Binding Amount, StringFormat='Amount: {0:C}'}" />
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
 
         <Button Text="Dodaj Wydatek" 
                 Clicked="OnAddExpenseClicked" />
-
     </StackLayout>
 </ContentPage>
