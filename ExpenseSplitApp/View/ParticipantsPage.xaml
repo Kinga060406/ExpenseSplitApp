@@ -16,6 +16,7 @@
                             <Label Text="{Binding Name}" />
                             <Label Text="{Binding Debt, StringFormat=' (Debt: {0:C})'}" />
                             <Button Text="Edytuj" Clicked="OnEditParticipantClicked" CommandParameter="{Binding .}" />
+                            <Button Text="Usun" Clicked="OnDeleteParticipantClicked" CommandParameter="{Binding .}" />
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>
@@ -40,6 +41,7 @@
                                 <Label Text="{Binding Amount, StringFormat='Amount: {0:C}'}" />
                             </StackLayout>
                             <Button Text="Edytuj" Clicked="OnEditExpenseClicked" CommandParameter="{Binding .}" />
+                            <Button Text="Usun" Clicked="OnDeleteExpenseClicked" CommandParameter="{Binding .}" />
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>

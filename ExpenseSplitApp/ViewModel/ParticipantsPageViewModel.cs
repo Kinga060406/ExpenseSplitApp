@@ -109,6 +109,26 @@ namespace ExpenseSplitApp.ViewModels
             }
         }
 
+        public async Task DeleteParticipantAsync(Participant participant)
+        {
+            if (participant != null)
+            {
+                await App.Database.DeleteParticipantAsync(participant);
+                Participants.Remove(participant);
+                await CalculateDebtsAsync();
+            }
+        }
+
+        public async Task DeleteExpenseAsync(Expense expense)
+        {
+            if (expense != null)
+            {
+                await App.Database.DeleteExpenseAsync(expense);
+                Expenses.Remove(expense);
+                await CalculateDebtsAsync();
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName)
