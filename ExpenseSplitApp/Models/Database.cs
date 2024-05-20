@@ -18,6 +18,7 @@ namespace ExpenseSplitApp.Models
 
         public Task<List<Group>> GetGroupsAsync() => _database.Table<Group>().ToListAsync();
         public Task<int> SaveGroupAsync(Group group) => _database.InsertAsync(group);
+        public Task<int> UpdateGroupAsync(Group group) => _database.UpdateAsync(group);
         public Task<int> DeleteGroupAsync(Group group) => _database.DeleteAsync(group);
 
         public Task<List<Participant>> GetParticipantsAsync() => _database.Table<Participant>().ToListAsync();

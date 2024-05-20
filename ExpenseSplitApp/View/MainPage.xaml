@@ -1,7 +1,8 @@
 ﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:ExpenseSplitApp"
-             x:Class="ExpenseSplitApp.MainPage">
+             x:Class="ExpenseSplitApp.MainPage"
+             x:Name="Page">
 
     <StackLayout>
         <Label Text="Grupy" 
@@ -14,9 +15,14 @@
                     <ViewCell>
                         <StackLayout Orientation="Horizontal" Padding="10">
                             <Label Text="{Binding Name}" VerticalOptions="Center" />
+                            <Button Text="Edytuj" 
+                                    Command="{Binding Source={x:Reference Page}, Path=BindingContext.EditGroupCommand}"
+                                    CommandParameter="{Binding .}"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="EndAndExpand"/>
                             <Button Text="Usuń" 
-                                    Clicked="OnDeleteGroupClicked" 
-                                    BindingContext="{Binding .}"
+                                    Command="{Binding Source={x:Reference Page}, Path=BindingContext.DeleteGroupCommand}"
+                                    CommandParameter="{Binding .}"
                                     VerticalOptions="Center"
                                     HorizontalOptions="EndAndExpand"/>
                         </StackLayout>
@@ -26,6 +32,6 @@
         </ListView>
 
         <Button Text="Dodaj Grupę" 
-                Clicked="OnAddGroupClicked" />
+                Command="{Binding AddGroupCommand}" />
     </StackLayout>
 </ContentPage>
