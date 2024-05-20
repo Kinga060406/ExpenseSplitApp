@@ -28,5 +28,16 @@ namespace ExpenseSplitApp.Models
         public Task<List<Expense>> GetExpensesAsync() => _database.Table<Expense>().ToListAsync();
         public Task<int> SaveExpenseAsync(Expense expense) => _database.InsertAsync(expense);
         public Task<int> DeleteExpenseAsync(Expense expense) => _database.DeleteAsync(expense);
+
+        // New methods to delete participants and expenses by group id
+        public Task<int> DeleteParticipantsByGroupIdAsync(int groupId)
+        {
+            return _database.ExecuteAsync("DELETE FROM Participant WHERE GroupId = ?", groupId);
+        }
+
+        public Task<int> DeleteExpensesByGroupIdAsync(int groupId)
+        {
+            return _database.ExecuteAsync("DELETE FROM Expense WHERE GroupId = ?", groupId);
+        }
     }
 }

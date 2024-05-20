@@ -1,8 +1,8 @@
-﻿using ExpenseSplitApp.Models;
-using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+using ExpenseSplitApp.Models;
 
 namespace ExpenseSplitApp.ViewModels
 {
@@ -47,6 +47,15 @@ namespace ExpenseSplitApp.ViewModels
             }
         }
 
-
+        public async void DeleteGroup(Group group)
+        {
+            if (group != null)
+            {
+                await App.Database.DeleteParticipantsByGroupIdAsync(group.Id);
+                await App.Database.DeleteExpensesByGroupIdAsync(group.Id);
+                await App.Database.DeleteGroupAsync(group);
+                Groups.Remove(group);
+            }
+        }
     }
 }

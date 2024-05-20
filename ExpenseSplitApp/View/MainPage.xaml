@@ -11,7 +11,16 @@
         <ListView ItemsSource="{Binding Groups}" ItemTapped="OnGroupTapped">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextCell Text="{Binding Name}" />
+                    <ViewCell>
+                        <StackLayout Orientation="Horizontal" Padding="10">
+                            <Label Text="{Binding Name}" VerticalOptions="Center" />
+                            <Button Text="Usuń" 
+                                    Clicked="OnDeleteGroupClicked" 
+                                    BindingContext="{Binding .}"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="EndAndExpand"/>
+                        </StackLayout>
+                    </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
