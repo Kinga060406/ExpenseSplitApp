@@ -88,6 +88,27 @@ namespace ExpenseSplitApp.ViewModels
             }
         }
 
+        public async Task EditParticipantAsync(Participant participant, string newName)
+        {
+            if (participant != null && !string.IsNullOrWhiteSpace(newName))
+            {
+                participant.Name = newName;
+                await App.Database.UpdateParticipantAsync(participant);
+                LoadParticipants(); // Refresh the list
+            }
+        }
+
+        public async Task EditExpenseAsync(Expense expense, string newDescription, string newAmountString)
+        {
+            if (expense != null && !string.IsNullOrWhiteSpace(newDescription) && decimal.TryParse(newAmountString, out var newAmount))
+            {
+                expense.Description = newDescription;
+                expense.Amount = newAmount;
+                await App.Database.SaveExpenseAsync(expense);
+                LoadExpenses(); // Refresh the list
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName)

@@ -15,6 +15,7 @@
                         <StackLayout Orientation="Horizontal">
                             <Label Text="{Binding Name}" />
                             <Label Text="{Binding Debt, StringFormat=' (Debt: {0:C})'}" />
+                            <Button Text="Edytuj" Clicked="OnEditParticipantClicked" CommandParameter="{Binding .}" />
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>
@@ -32,8 +33,15 @@
         <ListView ItemsSource="{Binding Expenses}" x:Name="expensesListView">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextCell Text="{Binding Description}" 
-                              Detail="{Binding Amount, StringFormat='Amount: {0:C}'}" />
+                    <ViewCell>
+                        <StackLayout Orientation="Horizontal">
+                            <StackLayout Orientation="Vertical">
+                                <Label Text="{Binding Description}" />
+                                <Label Text="{Binding Amount, StringFormat='Amount: {0:C}'}" />
+                            </StackLayout>
+                            <Button Text="Edytuj" Clicked="OnEditExpenseClicked" CommandParameter="{Binding .}" />
+                        </StackLayout>
+                    </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
