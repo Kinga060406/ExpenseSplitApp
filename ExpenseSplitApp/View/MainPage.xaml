@@ -4,34 +4,55 @@
              x:Class="ExpenseSplitApp.MainPage"
              x:Name="Page">
 
-    <StackLayout>
+    <ContentPage.Resources>
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="Transparent" />
+            <Setter Property="TextColor" Value="Blue" />
+            <Setter Property="FontSize" Value="Small" />
+            <Setter Property="Padding" Value="5" />
+        </Style>
+    </ContentPage.Resources>
+
+    <StackLayout Padding="10" HorizontalOptions="Center">
         <Label Text="Grupy" 
                FontSize="Large" 
-               HorizontalOptions="Center" />
+               HorizontalOptions="Center" 
+               Margin="0,10,0,10" />
 
         <ListView ItemsSource="{Binding Groups}" ItemTapped="OnGroupTapped">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <StackLayout Orientation="Horizontal" Padding="10">
-                            <Label Text="{Binding Name}" VerticalOptions="Center" />
-                            <Button Text="Edytuj" 
-                                    Command="{Binding Source={x:Reference Page}, Path=BindingContext.EditGroupCommand}"
-                                    CommandParameter="{Binding .}"
-                                    VerticalOptions="Center"
-                                    HorizontalOptions="EndAndExpand"/>
-                            <Button Text="Usuń" 
-                                    Command="{Binding Source={x:Reference Page}, Path=BindingContext.DeleteGroupCommand}"
-                                    CommandParameter="{Binding .}"
-                                    VerticalOptions="Center"
-                                    HorizontalOptions="EndAndExpand"/>
-                        </StackLayout>
+                        <Grid Padding="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Label Text="{Binding Name}" VerticalOptions="Center" Grid.Column="0" />
+
+                            <StackLayout Grid.Column="1" Orientation="Horizontal" Spacing="5">
+                                <Button Style="{StaticResource ButtonStyle}"
+                                        Text="Edytuj"
+                                        Command="{Binding Source={x:Reference Page}, Path=BindingContext.EditGroupCommand}"
+                                        CommandParameter="{Binding .}" />
+                            </StackLayout>
+
+                            <StackLayout Grid.Column="2" Orientation="Horizontal" Spacing="5">
+                                <Button Style="{StaticResource ButtonStyle}"
+                                        Text="Usuń"
+                                        TextColor="Red"
+                                        Command="{Binding Source={x:Reference Page}, Path=BindingContext.DeleteGroupCommand}"
+                                        CommandParameter="{Binding .}" />
+                            </StackLayout>
+                        </Grid>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
 
         <Button Text="Dodaj Grupę" 
-                Command="{Binding AddGroupCommand}" />
+                Command="{Binding AddGroupCommand}" 
+                Margin="500,100,500,10"/>
     </StackLayout>
 </ContentPage>
