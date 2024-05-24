@@ -1,6 +1,6 @@
 ﻿using Microsoft.Maui.Controls;
 using ExpenseSplitApp.ViewModels;
-using ExpenseSplitApp.Models; 
+using ExpenseSplitApp.Models;
 using ExpenseSplitApp.Views;
 
 namespace ExpenseSplitApp
@@ -16,12 +16,14 @@ namespace ExpenseSplitApp
             BindingContext = viewModel;
         }
 
-        private async void OnGroupTapped(object sender, ItemTappedEventArgs e)
+        private async void OnGroupTapped(object sender, SelectionChangedEventArgs e)
         {
-            var group = e.Item as Group;
+            var group = e.CurrentSelection.FirstOrDefault() as Group;
             if (group != null)
             {
                 await Navigation.PushAsync(new ParticipantsPage(group.Id));
+                // Clear the selection after navigating
+                ((CollectionView)sender).SelectedItem = null;
             }
         }
     }

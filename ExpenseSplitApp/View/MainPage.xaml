@@ -11,48 +11,65 @@
             <Setter Property="FontSize" Value="Small" />
             <Setter Property="Padding" Value="5" />
         </Style>
+
+        <Style x:Key="AddButtonStyle" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="#4CAF50" />
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="FontSize" Value="Medium" />
+            <Setter Property="CornerRadius" Value="20" />
+            <Setter Property="Margin" Value="10" />
+            <Setter Property="HeightRequest" Value="50" />
+        </Style>
     </ContentPage.Resources>
 
-    <StackLayout Padding="10" HorizontalOptions="Center">
+    <StackLayout Padding="20" Spacing="20">
         <Label Text="Grupy" 
                FontSize="Large" 
                HorizontalOptions="Center" 
                Margin="0,10,0,10" />
 
-        <ListView ItemsSource="{Binding Groups}" ItemTapped="OnGroupTapped">
-            <ListView.ItemTemplate>
+        <CollectionView ItemsSource="{Binding Groups}" SelectionMode="Single" SelectionChanged="OnGroupTapped">
+            <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <ViewCell>
-                        <Grid Padding="10">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <Label Text="{Binding Name}" VerticalOptions="Center" Grid.Column="0" />
+                    <Grid Padding="10" Margin="0,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
 
-                            <StackLayout Grid.Column="1" Orientation="Horizontal" Spacing="5">
-                                <Button Style="{StaticResource ButtonStyle}"
-                                        Text="Edytuj"
-                                        Command="{Binding Source={x:Reference Page}, Path=BindingContext.EditGroupCommand}"
-                                        CommandParameter="{Binding .}" />
-                            </StackLayout>
+                        <Frame Grid.Column="0" 
+                               CornerRadius="10" 
+                               BackgroundColor="#F5F5F5"
+                               Padding="10">
+                            <Label Text="{Binding Name}" 
+                                   VerticalOptions="Center" 
+                                   FontSize="Medium"
+                                   TextColor="Black"/>
+                        </Frame>
 
-                            <StackLayout Grid.Column="2" Orientation="Horizontal" Spacing="5">
-                                <Button Style="{StaticResource ButtonStyle}"
-                                        Text="Usuń"
-                                        TextColor="Red"
-                                        Command="{Binding Source={x:Reference Page}, Path=BindingContext.DeleteGroupCommand}"
-                                        CommandParameter="{Binding .}" />
-                            </StackLayout>
-                        </Grid>
-                    </ViewCell>
+                        <StackLayout Grid.Column="1" Orientation="Horizontal" Spacing="5" VerticalOptions="Center">
+                            <Button Style="{StaticResource ButtonStyle}"
+                                    Text="✏️"
+                                    Command="{Binding Source={x:Reference Page}, Path=BindingContext.EditGroupCommand}"
+                                    CommandParameter="{Binding .}" />
+                        </StackLayout>
+
+                        <StackLayout Grid.Column="2" Orientation="Horizontal" Spacing="5" VerticalOptions="Center">
+                            <Button Style="{StaticResource ButtonStyle}"
+                                    Text="🗑️"
+                                    TextColor="Red"
+                                    Command="{Binding Source={x:Reference Page}, Path=BindingContext.DeleteGroupCommand}"
+                                    CommandParameter="{Binding .}" />
+                        </StackLayout>
+                    </Grid>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
 
         <Button Text="Dodaj Grupę" 
+                Style="{StaticResource AddButtonStyle}"
                 Command="{Binding AddGroupCommand}" 
-                Margin="500,100,500,10"/>
+                HorizontalOptions="FillAndExpand"/>
     </StackLayout>
 </ContentPage>
