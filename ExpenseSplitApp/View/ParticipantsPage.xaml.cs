@@ -79,5 +79,6 @@ namespace ExpenseSplitApp.Views
                 }
             }
         }
+
     }
 }

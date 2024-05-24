@@ -8,13 +8,14 @@ namespace ExpenseSplitApp.Models
     {
         public static async Task CalculateDebtsAsync(List<Participant> participants, List<Expense> expenses, Database database)
         {
-            // Reset debts for all participants
+            // Resetowanie zadłużeń dla wszystkich uczestników
             foreach (var participant in participants)
             {
                 participant.Debt = 0m;
+                await database.UpdateParticipantAsync(participant);
             }
 
-            // Group expenses by GroupId
+            // Grupowanie wydatków według GroupId
             var expensesByGroup = expenses.GroupBy(e => e.GroupId);
 
             foreach (var groupExpenses in expensesByGroup)
@@ -35,6 +36,9 @@ namespace ExpenseSplitApp.Models
                 }
             }
         }
+
+
+
     }
 }
 

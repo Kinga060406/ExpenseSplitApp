@@ -55,15 +55,14 @@ namespace ExpenseSplitApp.ViewModels
 
         private async Task CalculateDebtsAsync()
         {
-            if (Participants != null && Expenses != null)
-            {
-                await DebtCalculator.CalculateDebtsAsync(Participants.ToList(), Expenses.ToList(), App.Database);
+            var participants = await App.Database.GetParticipantsAsync();
+            var expenses = await App.Database.GetExpensesAsync();
+            await DebtCalculator.CalculateDebtsAsync(participants, expenses, App.Database);
 
-                // Refresh the participants list to include updated debts
-                var updatedParticipants = await App.Database.GetParticipantsAsync();
-                Participants = new ObservableCollection<Participant>(updatedParticipants.Where(p => p.GroupId == _groupId));
-                OnPropertyChanged(nameof(Participants));
-            }
+            // Odświeżenie listy uczestników, aby uwzględnić zaktualizowane zadłużenia
+            var updatedParticipants = await App.Database.GetParticipantsAsync();
+            Participants = new ObservableCollection<Participant>(updatedParticipants.Where(p => p.GroupId == _groupId));
+            OnPropertyChanged(nameof(Participants));
         }
 
         public async Task AddParticipantAsync(string participantName)
@@ -94,7 +93,7 @@ namespace ExpenseSplitApp.ViewModels
             {
                 participant.Name = newName;
                 await App.Database.UpdateParticipantAsync(participant);
-                LoadParticipants(); // Refresh the list
+                LoadParticipants(); // Odświeżenie listy
             }
         }
 
@@ -105,7 +104,7 @@ namespace ExpenseSplitApp.ViewModels
                 expense.Description = newDescription;
                 expense.Amount = newAmount;
                 await App.Database.SaveExpenseAsync(expense);
-                LoadExpenses(); // Refresh the list
+                LoadExpenses(); // Odświeżenie listy
             }
         }
 
