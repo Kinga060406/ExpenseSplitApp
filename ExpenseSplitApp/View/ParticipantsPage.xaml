@@ -31,19 +31,19 @@
         </Style>
 
         <Style x:Key="EditButtonStyle" TargetType="Button">
-            <Setter Property="BackgroundColor" Value="#008000" />
-            <Setter Property="TextColor" Value="White" />
+            <Setter Property="BackgroundColor" Value="Transparent" />
+            <Setter Property="TextColor" Value="#0078D4" />
             <Setter Property="FontSize" Value="Small" />
             <Setter Property="Padding" Value="5" />
-            <Setter Property="Margin" Value="10,5,0,5" />
+            <Setter Property="Margin" Value="0,5" />
         </Style>
 
         <Style x:Key="DeleteButtonStyle" TargetType="Button">
-            <Setter Property="BackgroundColor" Value="#FF0000" />
-            <Setter Property="TextColor" Value="White" />
+            <Setter Property="BackgroundColor" Value="Transparent" />
+            <Setter Property="TextColor" Value="#FF0000" />
             <Setter Property="FontSize" Value="Small" />
             <Setter Property="Padding" Value="5" />
-            <Setter Property="Margin" Value="0,5,10,5" />
+            <Setter Property="Margin" Value="0,5" />
         </Style>
     </ContentPage.Resources>
 
@@ -61,9 +61,9 @@
                             <Label Text="{Binding Name}" />
                             <Label Text="{Binding Debt, StringFormat=' (Debt: {0:C})'}" />
                             <Button Style="{StaticResource EditButtonStyle}"
-                                    Text="Edytuj" Clicked="OnEditParticipantClicked" CommandParameter="{Binding .}" />
+                                    Text="&#9998;" Clicked="OnEditParticipantClicked" CommandParameter="{Binding .}" />
                             <Button Style="{StaticResource DeleteButtonStyle}"
-                                    Text="Usun" Clicked="OnDeleteParticipantClicked" CommandParameter="{Binding .}" />
+                                    Text="&#128465;" Clicked="OnDeleteParticipantClicked" CommandParameter="{Binding .}" />
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>
@@ -89,9 +89,9 @@
                                 <Label Text="{Binding Amount, StringFormat='Amount: {0:C}'}" />
                             </StackLayout>
                             <Button Style="{StaticResource EditButtonStyle}"
-                                    Text="Edytuj" Clicked="OnEditExpenseClicked" CommandParameter="{Binding .}" />
+                                    Text="&#9998;" Clicked="OnEditExpenseClicked" CommandParameter="{Binding .}" />
                             <Button Style="{StaticResource DeleteButtonStyle}"
-                                    Text="Usun" Clicked="OnDeleteExpenseClicked" CommandParameter="{Binding .}" />
+                                    Text="&#128465;" Clicked="OnDeleteExpenseClicked" CommandParameter="{Binding .}" />
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>
