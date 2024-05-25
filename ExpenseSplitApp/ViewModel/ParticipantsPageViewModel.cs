@@ -55,15 +55,13 @@ namespace ExpenseSplitApp.ViewModels
 
         private async Task CalculateDebtsAsync()
         {
-            if (Participants != null && Expenses != null)
-            {
-                await DebtCalculator.CalculateDebtsAsync(Participants.ToList(), Expenses.ToList(), App.Database);
+            var participants = await App.Database.GetParticipantsAsync();
+            var expenses = await App.Database.GetExpensesAsync();
+            await DebtCalculator.CalculateDebtsAsync(participants, expenses, App.Database);
 
-                // Refresh the participants list to include updated debts
-                var updatedParticipants = await App.Database.GetParticipantsAsync();
-                Participants = new ObservableCollection<Participant>(updatedParticipants.Where(p => p.GroupId == _groupId));
-                OnPropertyChanged(nameof(Participants));
-            }
+            var updatedParticipants = await App.Database.GetParticipantsAsync();
+            Participants = new ObservableCollection<Participant>(updatedParticipants.Where(p => p.GroupId == _groupId));
+            OnPropertyChanged(nameof(Participants));
         }
 
         public async Task AddParticipantAsync(string participantName)
@@ -84,6 +82,47 @@ namespace ExpenseSplitApp.ViewModels
                 var newExpense = new Expense { Description = description, Amount = amount, GroupId = _groupId };
                 await App.Database.SaveExpenseAsync(newExpense);
                 Expenses.Add(newExpense);
+                await CalculateDebtsAsync();
+            }
+        }
+
+        public async Task EditParticipantAsync(Participant participant, string newName)
+        {
+            if (participant != null && !string.IsNullOrWhiteSpace(newName))
+            {
+                participant.Name = newName;
+                await App.Database.UpdateParticipantAsync(participant);
+                LoadParticipants();
+            }
+        }
+
+        public async Task EditExpenseAsync(Expense expense, string newDescription, string newAmountString)
+        {
+            if (expense != null && !string.IsNullOrWhiteSpace(newDescription) && decimal.TryParse(newAmountString, out var newAmount))
+            {
+                expense.Description = newDescription;
+                expense.Amount = newAmount;
+                await App.Database.SaveExpenseAsync(expense);
+                LoadExpenses();
+            }
+        }
+
+        public async Task DeleteParticipantAsync(Participant participant)
+        {
+            if (participant != null)
+            {
+                await App.Database.DeleteParticipantAsync(participant);
+                Participants.Remove(participant);
+                await CalculateDebtsAsync();
+            }
+        }
+
+        public async Task DeleteExpenseAsync(Expense expense)
+        {
+            if (expense != null)
+            {
+                await App.Database.DeleteExpenseAsync(expense);
+                Expenses.Remove(expense);
                 await CalculateDebtsAsync();
             }
         }

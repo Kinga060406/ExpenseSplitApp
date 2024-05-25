@@ -3,6 +3,8 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using ExpenseSplitApp.Models;
+using System.Windows.Input;
+using Microsoft.Maui.Controls;
 
 namespace ExpenseSplitApp.ViewModels
 {
@@ -19,8 +21,15 @@ namespace ExpenseSplitApp.ViewModels
             }
         }
 
+        public ICommand AddGroupCommand { get; }
+        public ICommand DeleteGroupCommand { get; }
+        public ICommand EditGroupCommand { get; }
+
         public MainPageViewModel()
         {
+            AddGroupCommand = new Command(async () => await AddGroupAsync());
+            DeleteGroupCommand = new Command<Group>(async (group) => await DeleteGroupAsync(group));
+            EditGroupCommand = new Command<Group>(async (group) => await EditGroupAsync(group));
             LoadGroups();
         }
 
@@ -37,8 +46,9 @@ namespace ExpenseSplitApp.ViewModels
             Groups = new ObservableCollection<Group>(groups);
         }
 
-        public async void AddGroup(string groupName)
+        public async Task AddGroupAsync()
         {
+            string groupName = await App.Current.MainPage.DisplayPromptAsync("Nowa Grupa", "Podaj nazwę grupy:");
             if (!string.IsNullOrWhiteSpace(groupName))
             {
                 var newGroup = new Group { Name = groupName };
@@ -47,7 +57,7 @@ namespace ExpenseSplitApp.ViewModels
             }
         }
 
-        public async void DeleteGroup(Group group)
+        public async Task DeleteGroupAsync(Group group)
         {
             if (group != null)
             {
@@ -57,5 +67,20 @@ namespace ExpenseSplitApp.ViewModels
                 Groups.Remove(group);
             }
         }
+
+        public async Task EditGroupAsync(Group group)
+        {
+            if (group != null)
+            {
+                string newName = await App.Current.MainPage.DisplayPromptAsync("Edytuj Grupę", "Podaj nową nazwę grupy:", initialValue: group.Name);
+                if (!string.IsNullOrWhiteSpace(newName))
+                {
+                    group.Name = newName;
+                    await App.Database.UpdateGroupAsync(group);
+                    LoadGroups();  // Reload groups to reflect changes
+                }
+            }
+        }
     }
 }
+
