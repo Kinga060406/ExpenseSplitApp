@@ -1,22 +1,69 @@
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:ExpenseSplitApp.Views"
              x:Class="ExpenseSplitApp.Views.ParticipantsPage">
 
-    <StackLayout>
+    <ContentPage.Resources>
+        <Style x:Key="LabelStyle" TargetType="Label">
+            <Setter Property="FontSize" Value="Large" />
+            <Setter Property="Margin" Value="0,10,0,10" />
+        </Style>
+
+        <Style x:Key="ListViewStyle" TargetType="ListView">
+            <Setter Property="Margin" Value="0,5" />
+        </Style>
+
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="Transparent" />
+            <Setter Property="TextColor" Value="Blue" />
+            <Setter Property="FontSize" Value="Small" />
+            <Setter Property="Padding" Value="5" />
+            <Setter Property="Margin" Value="0,5" />
+        </Style>
+
+        <Style x:Key="AddButtonStyle" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="#4CAF50" />
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="FontSize" Value="Medium" />
+            <Setter Property="CornerRadius" Value="20" />
+            <Setter Property="Margin" Value="10" />
+            <Setter Property="HeightRequest" Value="50" />
+        </Style>
+
+        <Style x:Key="EditButtonStyle" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="#008000" />
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="FontSize" Value="Small" />
+            <Setter Property="Padding" Value="5" />
+            <Setter Property="Margin" Value="10,5,0,5" />
+        </Style>
+
+        <Style x:Key="DeleteButtonStyle" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="#FF0000" />
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="FontSize" Value="Small" />
+            <Setter Property="Padding" Value="5" />
+            <Setter Property="Margin" Value="0,5,10,5" />
+        </Style>
+    </ContentPage.Resources>
+
+    <StackLayout Padding="20" Spacing="20">
         <Label Text="Uczestnicy" 
-               FontSize="Large" 
+               Style="{StaticResource LabelStyle}"
                HorizontalOptions="Center" />
 
-        <ListView ItemsSource="{Binding Participants}" x:Name="participantsListView">
+        <ListView ItemsSource="{Binding Participants}" x:Name="participantsListView" 
+                  Style="{StaticResource ListViewStyle}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
                         <StackLayout Orientation="Horizontal">
                             <Label Text="{Binding Name}" />
                             <Label Text="{Binding Debt, StringFormat=' (Debt: {0:C})'}" />
-                            <Button Text="Edytuj" Clicked="OnEditParticipantClicked" CommandParameter="{Binding .}" />
-                            <Button Text="Usun" Clicked="OnDeleteParticipantClicked" CommandParameter="{Binding .}" />
+                            <Button Style="{StaticResource EditButtonStyle}"
+                                    Text="Edytuj" Clicked="OnEditParticipantClicked" CommandParameter="{Binding .}" />
+                            <Button Style="{StaticResource DeleteButtonStyle}"
+                                    Text="Usun" Clicked="OnDeleteParticipantClicked" CommandParameter="{Binding .}" />
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>
@@ -24,14 +71,15 @@
         </ListView>
 
         <Button Text="Dodaj Uczestnika" 
+                Style="{StaticResource AddButtonStyle}"
                 Clicked="OnAddParticipantClicked" />
 
         <Label Text="Wydatki" 
-               FontSize="Large" 
-               HorizontalOptions="Center" 
-               Margin="20,10,20,0" />
+               Style="{StaticResource LabelStyle}"
+               HorizontalOptions="Center" />
 
-        <ListView ItemsSource="{Binding Expenses}" x:Name="expensesListView">
+        <ListView ItemsSource="{Binding Expenses}" x:Name="expensesListView"
+                  Style="{StaticResource ListViewStyle}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
@@ -40,8 +88,10 @@
                                 <Label Text="{Binding Description}" />
                                 <Label Text="{Binding Amount, StringFormat='Amount: {0:C}'}" />
                             </StackLayout>
-                            <Button Text="Edytuj" Clicked="OnEditExpenseClicked" CommandParameter="{Binding .}" />
-                            <Button Text="Usun" Clicked="OnDeleteExpenseClicked" CommandParameter="{Binding .}" />
+                            <Button Style="{StaticResource EditButtonStyle}"
+                                    Text="Edytuj" Clicked="OnEditExpenseClicked" CommandParameter="{Binding .}" />
+                            <Button Style="{StaticResource DeleteButtonStyle}"
+                                    Text="Usun" Clicked="OnDeleteExpenseClicked" CommandParameter="{Binding .}" />
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>
@@ -49,6 +99,7 @@
         </ListView>
 
         <Button Text="Dodaj Wydatek" 
+                Style="{StaticResource AddButtonStyle}"
                 Clicked="OnAddExpenseClicked" />
     </StackLayout>
 </ContentPage>

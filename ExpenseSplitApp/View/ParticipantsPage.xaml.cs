@@ -1,4 +1,3 @@
-using System;
 using Microsoft.Maui.Controls;
 using ExpenseSplitApp.ViewModels;
 using ExpenseSplitApp.Models;
@@ -79,6 +78,5 @@ namespace ExpenseSplitApp.Views
                 }
             }
         }
-
     }
 }
