@@ -26,6 +26,7 @@ namespace ExpenseSplitApp.ViewModels
         public ICommand EditGroupCommand { get; }
 
         public int CurrentUserId { get; }
+        public string Username { get; }
 
         public MainPageViewModel(int currentUserId)
         {

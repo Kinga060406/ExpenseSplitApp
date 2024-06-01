@@ -20,6 +20,7 @@ namespace ExpenseSplitApp.Models
         // Użytkownicy
         public Task<List<User>> GetUsersAsync() => _database.Table<User>().ToListAsync();
         public Task<User> GetUserByUsernameAsync(string username) => _database.Table<User>().Where(u => u.Username == username).FirstOrDefaultAsync();
+        public Task<User> GetUserByIdAsync(int userId) => _database.Table<User>().Where(u => u.Id == userId).FirstOrDefaultAsync();
         public Task<int> SaveUserAsync(User user) => _database.InsertAsync(user);
         public Task<int> UpdateUserAsync(User user) => _database.UpdateAsync(user);
         public Task<int> DeleteUserAsync(User user) => _database.DeleteAsync(user);
