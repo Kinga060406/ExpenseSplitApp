@@ -9,10 +9,10 @@ namespace ExpenseSplitApp
     {
         private MainPageViewModel viewModel;
 
-        public MainPage()
+        public MainPage(int userId)
         {
             InitializeComponent();
-            viewModel = new MainPageViewModel();
+            viewModel = new MainPageViewModel(userId);
             BindingContext = viewModel;
         }
 
@@ -21,10 +21,18 @@ namespace ExpenseSplitApp
             var group = e.CurrentSelection.FirstOrDefault() as Group;
             if (group != null)
             {
-                await Navigation.PushAsync(new ParticipantsPage(group.Id));
+                await Navigation.PushAsync(new ParticipantsPage(group.Id, viewModel.CurrentUserId));
                 // Clear the selection after navigating
                 ((CollectionView)sender).SelectedItem = null;
             }
+        }
+
+        private async void OnLogoutClicked(object sender, EventArgs e)
+        {
+            // Przeniesienie do strony logowania
+            await Navigation.PushAsync(new LoginPage());
+            // Usuń bieżącą stronę z historii nawigacji
+            Navigation.RemovePage(this);
         }
     }
 }

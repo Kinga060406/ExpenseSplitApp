@@ -8,10 +8,10 @@ namespace ExpenseSplitApp.Views
     {
         private ParticipantsViewModel _viewModel;
 
-        public ParticipantsPage(int groupId)
+        public ParticipantsPage(int groupId, int userId)
         {
             InitializeComponent();
-            _viewModel = new ParticipantsViewModel(groupId);
+            _viewModel = new ParticipantsViewModel(groupId, userId);
             BindingContext = _viewModel;
         }
 
@@ -77,6 +77,14 @@ namespace ExpenseSplitApp.Views
                     await _viewModel.DeleteExpenseAsync(expense);
                 }
             }
+        }
+
+        private async void OnLogoutClicked(object sender, EventArgs e)
+        {
+            // Przeniesienie do strony logowania
+            await Navigation.PushAsync(new LoginPage());
+            // Usuñ bie¿¹c¹ stronê z historii nawigacji
+            Navigation.RemovePage(this);
         }
     }
 }

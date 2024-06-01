@@ -25,8 +25,11 @@ namespace ExpenseSplitApp.ViewModels
         public ICommand DeleteGroupCommand { get; }
         public ICommand EditGroupCommand { get; }
 
-        public MainPageViewModel()
+        public int CurrentUserId { get; }
+
+        public MainPageViewModel(int currentUserId)
         {
+            CurrentUserId = currentUserId;
             AddGroupCommand = new Command(async () => await AddGroupAsync());
             DeleteGroupCommand = new Command<Group>(async (group) => await DeleteGroupAsync(group));
             EditGroupCommand = new Command<Group>(async (group) => await EditGroupAsync(group));
@@ -42,7 +45,7 @@ namespace ExpenseSplitApp.ViewModels
 
         public void LoadGroups()
         {
-            var groups = App.Database.GetGroupsAsync().Result;
+            var groups = App.Database.GetGroupsAsync(CurrentUserId).Result;
             Groups = new ObservableCollection<Group>(groups);
         }
 
@@ -51,7 +54,7 @@ namespace ExpenseSplitApp.ViewModels
             string groupName = await App.Current.MainPage.DisplayPromptAsync("Nowa Grupa", "Podaj nazwę grupy:");
             if (!string.IsNullOrWhiteSpace(groupName))
             {
-                var newGroup = new Group { Name = groupName };
+                var newGroup = new Group { Name = groupName, UserId = CurrentUserId };
                 await App.Database.SaveGroupAsync(newGroup);
                 Groups.Add(newGroup);
             }
@@ -83,4 +86,3 @@ namespace ExpenseSplitApp.ViewModels
         }
     }
 }
-

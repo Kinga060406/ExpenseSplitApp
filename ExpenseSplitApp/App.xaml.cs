@@ -1,10 +1,10 @@
-﻿using ExpenseSplitApp.Models;
+﻿using ExpenseSplitApp.Views;
+using ExpenseSplitApp.Models;
 
 namespace ExpenseSplitApp
 {
     public partial class App : Application
     {
-
         static Database database;
 
         public static Database Database
@@ -19,12 +19,10 @@ namespace ExpenseSplitApp
             }
         }
 
-
         public App()
         {
             InitializeComponent();
-
-            MainPage = new AppShell();
+            MainPage = new NavigationPage(new LoginPage());
         }
     }
 }
