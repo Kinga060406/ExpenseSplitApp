@@ -14,5 +14,6 @@ namespace ExpenseSplitApp.Models
         public string Name { get; set; } = default!;
         public int GroupId { get; set; }
         public decimal Debt { get; set; }
+        public int UserId { get; set; }
     }
 }

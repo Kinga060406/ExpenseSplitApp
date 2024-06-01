@@ -32,34 +32,37 @@ namespace ExpenseSplitApp.ViewModels
             }
         }
 
-        public ParticipantsViewModel(int groupId)
+        public int CurrentUserId { get; }
+
+        public ParticipantsViewModel(int groupId, int currentUserId)
         {
             _groupId = groupId;
+            CurrentUserId = currentUserId;
             LoadParticipants();
             LoadExpenses();
         }
 
         private async void LoadParticipants()
         {
-            var participants = await App.Database.GetParticipantsAsync();
+            var participants = await App.Database.GetParticipantsAsync(CurrentUserId);
             Participants = new ObservableCollection<Participant>(participants.Where(p => p.GroupId == _groupId));
             await CalculateDebtsAsync();
         }
 
         private async void LoadExpenses()
         {
-            var expenses = await App.Database.GetExpensesAsync();
+            var expenses = await App.Database.GetExpensesAsync(CurrentUserId);
             Expenses = new ObservableCollection<Expense>(expenses.Where(e => e.GroupId == _groupId));
             await CalculateDebtsAsync();
         }
 
         private async Task CalculateDebtsAsync()
         {
-            var participants = await App.Database.GetParticipantsAsync();
-            var expenses = await App.Database.GetExpensesAsync();
+            var participants = await App.Database.GetParticipantsAsync(CurrentUserId);
+            var expenses = await App.Database.GetExpensesAsync(CurrentUserId);
             await DebtCalculator.CalculateDebtsAsync(participants, expenses, App.Database);
 
-            var updatedParticipants = await App.Database.GetParticipantsAsync();
+            var updatedParticipants = await App.Database.GetParticipantsAsync(CurrentUserId);
             Participants = new ObservableCollection<Participant>(updatedParticipants.Where(p => p.GroupId == _groupId));
             OnPropertyChanged(nameof(Participants));
         }
@@ -68,7 +71,7 @@ namespace ExpenseSplitApp.ViewModels
         {
             if (!string.IsNullOrWhiteSpace(participantName))
             {
-                var newParticipant = new Participant { Name = participantName, GroupId = _groupId };
+                var newParticipant = new Participant { Name = participantName, GroupId = _groupId, UserId = CurrentUserId };
                 await App.Database.SaveParticipantAsync(newParticipant);
                 Participants.Add(newParticipant);
                 await CalculateDebtsAsync();
@@ -79,7 +82,7 @@ namespace ExpenseSplitApp.ViewModels
         {
             if (!string.IsNullOrWhiteSpace(description) && decimal.TryParse(amountString, out var amount))
             {
-                var newExpense = new Expense { Description = description, Amount = amount, GroupId = _groupId };
+                var newExpense = new Expense { Description = description, Amount = amount, GroupId = _groupId, UserId = CurrentUserId };
                 await App.Database.SaveExpenseAsync(newExpense);
                 Expenses.Add(newExpense);
                 await CalculateDebtsAsync();

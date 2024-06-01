@@ -8,10 +8,10 @@ namespace ExpenseSplitApp.Views
     {
         private ParticipantsViewModel _viewModel;
 
-        public ParticipantsPage(int groupId)
+        public ParticipantsPage(int groupId, int userId)
         {
             InitializeComponent();
-            _viewModel = new ParticipantsViewModel(groupId);
+            _viewModel = new ParticipantsViewModel(groupId, userId);
             BindingContext = _viewModel;
         }
 
