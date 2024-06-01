@@ -34,8 +34,9 @@ namespace ExpenseSplitApp.Models
         public Task<List<Expense>> GetExpensesAsync() => _database.Table<Expense>().ToListAsync();
         public Task<int> SaveExpenseAsync(Expense expense)
         {
-            return _database.InsertOrReplaceAsync(expense);
+            return _database.InsertAsync(expense);
         }
+
         public Task<int> DeleteExpenseAsync(Expense expense)
         {
             return _database.DeleteAsync(expense);

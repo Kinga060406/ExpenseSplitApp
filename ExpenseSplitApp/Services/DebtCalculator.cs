@@ -36,9 +36,5 @@ namespace ExpenseSplitApp.Models
                 }
             }
         }
-
-
-
     }
 }
-
