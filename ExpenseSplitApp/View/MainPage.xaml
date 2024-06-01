@@ -29,6 +29,15 @@
             <Setter Property="Margin" Value="10" />
             <Setter Property="HeightRequest" Value="50" />
         </Style>
+
+        <Style x:Key="DeleteAccountButtonStyle" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="#e53935" />
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="FontSize" Value="Medium" />
+            <Setter Property="CornerRadius" Value="20" />
+            <Setter Property="Margin" Value="10" />
+            <Setter Property="HeightRequest" Value="50" />
+        </Style>
     </ContentPage.Resources>
 
     <StackLayout Padding="20" Spacing="20">
@@ -84,6 +93,11 @@
         <Button Text="Wyloguj" 
                 Style="{StaticResource LogoutButtonStyle}"
                 Clicked="OnLogoutClicked"
+                HorizontalOptions="Center"/>
+
+        <Button Text="Usuń konto" 
+                Style="{StaticResource DeleteAccountButtonStyle}"
+                Clicked="OnDeleteAccountClicked"
                 HorizontalOptions="Center"/>
     </StackLayout>
 </ContentPage>

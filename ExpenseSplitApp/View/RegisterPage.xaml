@@ -11,9 +11,10 @@
         <Label Text="Rejestracja" Style="{StaticResource LabelStyle}" HorizontalOptions="Center" />
 
         <Entry Placeholder="Nazwa użytkownika" Text="{Binding Username}" />
+        <Entry Placeholder="Adres e-mail" Text="{Binding Email}" />
         <Entry Placeholder="Hasło" Text="{Binding Password}" IsPassword="True" />
         <Entry Placeholder="Potwierdź hasło" Text="{Binding ConfirmPassword}" IsPassword="True" />
 
-        <Button Text="Zarejestruj się" Command="{Binding RegisterCommand}" Style="{StaticResource AddButtonStyle}" HorizontalOptions="FillAndExpand" />
+        <Button Text="Zarejestruj się" Command="{Binding RegisterCommand}" Style="{StaticResource RegisterButtonStyle}" HorizontalOptions="FillAndExpand" />
     </StackLayout>
 </ContentPage>
