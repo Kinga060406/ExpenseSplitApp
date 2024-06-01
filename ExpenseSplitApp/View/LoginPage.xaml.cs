@@ -1,5 +1,6 @@
 using Microsoft.Maui.Controls;
 using ExpenseSplitApp.ViewModels;
+using ExpenseSplitApp.Views;
 
 namespace ExpenseSplitApp.Views
 {

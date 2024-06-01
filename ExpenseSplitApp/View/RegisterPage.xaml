@@ -8,12 +8,12 @@
     </ContentPage.BindingContext>
 
     <StackLayout Padding="20" Spacing="20">
-        <Label Text="Rejestracja" FontSize="Large" HorizontalOptions="Center" />
+        <Label Text="Rejestracja" Style="{StaticResource LabelStyle}" HorizontalOptions="Center" />
 
         <Entry Placeholder="Nazwa użytkownika" Text="{Binding Username}" />
         <Entry Placeholder="Hasło" Text="{Binding Password}" IsPassword="True" />
         <Entry Placeholder="Potwierdź hasło" Text="{Binding ConfirmPassword}" IsPassword="True" />
 
-        <Button Text="Zarejestruj się" Command="{Binding RegisterCommand}" />
+        <Button Text="Zarejestruj się" Command="{Binding RegisterCommand}" Style="{StaticResource AddButtonStyle}" HorizontalOptions="FillAndExpand" />
     </StackLayout>
 </ContentPage>
