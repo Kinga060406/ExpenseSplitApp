@@ -26,5 +26,13 @@ namespace ExpenseSplitApp
                 ((CollectionView)sender).SelectedItem = null;
             }
         }
+
+        private async void OnLogoutClicked(object sender, EventArgs e)
+        {
+            // Przeniesienie do strony logowania
+            await Navigation.PushAsync(new LoginPage());
+            // Usuń bieżącą stronę z historii nawigacji
+            Navigation.RemovePage(this);
+        }
     }
 }
